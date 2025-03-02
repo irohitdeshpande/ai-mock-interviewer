@@ -1,50 +1,32 @@
-# React + TypeScript + Vite
+# 🎤 IntervAI: AI-Powered Mock Interviewer  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 **IntervAI** is an AI-driven mock interviewer that helps candidates **prepare for job interviews** with real-time question generation, **speech-to-text-based answer evaluation**, and insightful feedback.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features  
 
-## Expanding the ESLint configuration
+✅ **Role-Specific Questions** – AI generates tailored questions based on the role applied for.  
+✅ **Speech-to-Text Answer Recording** – Record your answers via video, and the system converts speech to text.  
+✅ **AI-Powered Evaluation** – Responses are analyzed to provide constructive feedback.  
+✅ **Real-Time Insights** – Get instant feedback on your answers, including **clarity, relevance, and confidence level**.  
+✅ **Seamless Web Interface** – Built with **React + Vite** for a smooth and responsive experience.  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Tech Stack  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+| Technology  | Purpose |
+|-------------|---------|
+| **TypeScript** | Ensures type safety and better development experience |
+| **Vite** | Fast frontend build tool for optimized performance |
+| **React** | Frontend framework for dynamic UI |
+| **Clerk** | User Authentication |
+| **Gemini AI** | Generates questions & evaluates answers |
+| **Node.js** | Backend runtime for API logic |
+| **Express.js** | Handles API routes and requests |
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 🚀 Getting Started  
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
