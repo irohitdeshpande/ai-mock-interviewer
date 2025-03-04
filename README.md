@@ -1,4 +1,4 @@
-# 🎤 IntervAI: AI-Powered Mock Interviewer  
+# 🎤 IntervAI: AI-Powered Mock Interviewer - currently under development
 
 🚀 **IntervAI** is an AI-driven mock interviewer that helps candidates **prepare for job interviews** with real-time question generation, **speech-to-text-based answer evaluation**, and insightful feedback.  
 
