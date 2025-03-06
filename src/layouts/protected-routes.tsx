@@ -9,10 +9,10 @@ const ProtectedRoutes = ({children} : {children : React.ReactNode}) => {
     }
 
     if (!isSignedIn) {
-        return <Navigate to = "/signin/" replace />
+        return <Navigate to = {"/signin/"} replace />
     }
   return children
-}
+};
 
 export default ProtectedRoutes
 //checks for validity of user data, else sends back to homepage/signin
