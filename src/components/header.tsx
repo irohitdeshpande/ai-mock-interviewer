@@ -3,6 +3,10 @@ import { useAuth } from "@clerk/clerk-react"
 import { Container } from "./container";
 import { LogoContainer } from "./logo-container";
 import { NavigationRoutes } from "./navigation-routes";
+import { NavLink } from "react-router-dom";
+import { ProfileContainer } from "./profile-container";
+import { ToggleContainer } from "./toggle-container";
+// responsive header component
 
 const Header = () => {
   const { userId } = useAuth()
@@ -15,12 +19,24 @@ const Header = () => {
           <LogoContainer />
 
           {/* navigation section */}
-          <nav className='hidden md:flex items-center gap-3'>
+          <nav className='hidden md:flex items-center gap-7'>
             <NavigationRoutes />
+            {userId && (
+              <NavLink to='/generate' className={({ isActive }) => cn("text-base text-neutral-600", isActive && "text-neutral-900 font-semibold"
+              )}>
+                Take an Interview
+              </NavLink>
+            )}
           </nav>
-          
+
 
           {/* profile section */}
+          <div className = "ml-auto flex items-center gap-7">
+            {/* profile section */}
+              <ProfileContainer />
+            {/* mobile toggle section */}
+              <ToggleContainer />
+          </div>
         </div>
       </Container>
     </header>
