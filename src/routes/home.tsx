@@ -8,7 +8,7 @@ const HomePage: React.FC = () => {
 
   const handleButtonClick = () => {
     if (isSignedIn) {
-      navigate("/generate");
+      navigate("/interview");
     } else {
       navigate("/signin");
     }
