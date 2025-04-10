@@ -1,5 +1,7 @@
 import { FormMockInterview } from "@/components/form-mock-interview";
+import { db } from "@/config/firebase.config";
 import { Interview } from "@/types"
+import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
