@@ -10,6 +10,9 @@ export interface User {
 }
 
 export interface Interview {
+    company: string | undefined;
+    interviewDate: Date | null | undefined;
+    interviewTime: string | null | undefined;
     id: string;
     position: string;
     description: string;
