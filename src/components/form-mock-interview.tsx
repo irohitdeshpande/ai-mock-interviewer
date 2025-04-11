@@ -10,7 +10,9 @@ import { Headings } from "./headings"
 import { Trash2Icon } from "lucide-react"
 import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
-import { FormField, FormItem, FormLabel } from "./ui/form"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
+import { Input } from "./ui/input"
+import { Textarea } from "./ui/textarea"
 
 interface FormMockInterviewProps {
     initialData: Interview | null
@@ -108,13 +110,91 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
 
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col p-8 rounded-lg items-start justify-start gap-4 bg-white shadow-md">
-                    <FormField control = {form.control} name = {"position"} render = {({field}) => (
-                        <FormItem className = "w-full space-y-4">
-                            <div className = "w-full flex items-center justify-between">
+                    <FormField control={form.control} name={"position"} render={({ field }) => (
+                        <FormItem className="w-full space-y-4">
+                            <div className="w-full flex items-center justify-between">
                                 <FormLabel>Job Role / Position</FormLabel>
+                                <FormMessage
+                                    className="text-sm" />
                             </div>
+                            <FormControl className="w-full">
+                                <Input
+                                    className="h-8"
+                                    disabled={loading}
+                                    placeholder="ex. Software Development Engineer - 1"
+                                    {...field}
+                                    value={field.value || ""}
+                                />
+                            </FormControl>
                         </FormItem>
                     )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem className="w-full space-y-4">
+                                <div className="w-full flex items-center justify-between">
+                                    <FormLabel>Job Description</FormLabel>
+                                    <FormMessage className="text-sm" />
+                                </div>
+                                <FormControl>
+                                    <Textarea
+                                        className="h-8"
+                                        disabled={loading}
+                                        placeholder="ex. We are looking for a Software Development Engineer - 1 to join our team. The ideal candidate will have some experience in software development and a strong understanding of computer science principles."
+                                        {...field}
+                                        value={field.value || ""}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="experience"
+                        render={({ field }) => (
+                            <FormItem className="w-full space-y-4">
+                                <div className="w-full flex items-center justify-between">
+                                    <FormLabel>Years of Experience</FormLabel>
+                                    <FormMessage className="text-sm" />
+                                </div>
+                                <FormControl>
+                                    <Input
+                                        type="number"
+                                        className="h-8"
+                                        disabled={loading}
+                                        placeholder="ex. 1"
+                                        {...field}
+                                        value={field.value || ""}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="techStack"
+                        render={({ field }) => (
+                            <FormItem className="w-full space-y-4">
+                                <div className="w-full flex items-center justify-between">
+                                    <FormLabel>Tech Stacks</FormLabel>
+                                    <FormMessage className="text-sm" />
+                                </div>
+                                <FormControl>
+                                    <Textarea
+                                        className="h-8"
+                                        disabled={loading}
+                                        placeholder="ex. React, Node.js, Express, MongoDB"
+                                        {...field}
+                                        value={field.value || ""}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
                 </form>
             </FormProvider>
         </div>
