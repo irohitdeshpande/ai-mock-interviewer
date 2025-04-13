@@ -7,12 +7,13 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "@clerk/clerk-react"
 import { Headings } from "./headings"
-import { Trash2Icon } from "lucide-react"
+import { Loader, Trash2Icon } from "lucide-react"
 import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
+import { toast } from "sonner"
 
 interface FormMockInterviewProps {
     initialData: Interview | null
@@ -25,8 +26,7 @@ const formSchema = z.object({
         .max(100, { message: "Position must be less than 100 characters" }),
     company: z
         .string()
-        .min(1, { message: "Company is required" })
-        .max(100, { message: "Company must be less than 100 characters" }),
+        .min(1, { message: "Company is required" }),
     description: z
         .string()
         .min(10, { message: "Description is required" }),
@@ -38,11 +38,6 @@ const formSchema = z.object({
     techStack: z
         .string()
         .min(1, { message: "Techstack is required" }),
-    interviewDate: z.coerce
-        .date()
-        .optional()
-        .nullable(),
-    interviewTime: z.string().optional().nullable(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -56,12 +51,10 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
             description: "",
             experience: null,
             techStack: "",
-            interviewDate: null,
-            interviewTime: null,
         }
     });
 
-    const { isValid, isSubmitted } = form.formState;
+    const { isValid, isSubmitting } = form.formState;
     const { loading, setLoading } = useState(false);
     const { navigate } = useNavigate();
     const { userId } = useAuth();
@@ -73,17 +66,28 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
     const toastMessage = initialData
         ? { title: "Updated..!", description: "Changes saved successfully..." }
         : { title: "Created..!", description: "New Mock Interview created..." };
+    
+    const onSubmit = async (data: FormData) => {
+        try {
+            setLoading(true);
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong. Please try again later.");
+        }
+        finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        if (initialData) {
+        if ({initialData}) {
             form.reset({
                 position: initialData.position,
                 company: initialData.company,
                 description: initialData.description,
                 experience: initialData.experience,
                 techStack: initialData.techStack,
-                interviewDate: initialData.interviewDate,
-                interviewTime: initialData.interviewTime,
+                whyJoinUs: initialData.whyJoinUs,
             })
         }
     }, [initialData, form]);
@@ -109,25 +113,52 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
             <div className="my-5"></div>
 
             <FormProvider {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col p-8 rounded-lg items-start justify-start gap-4 bg-white shadow-md">
-                    <FormField control={form.control} name={"position"} render={({ field }) => (
-                        <FormItem className="w-full space-y-4">
-                            <div className="w-full flex items-center justify-between">
-                                <FormLabel>Job Role / Position</FormLabel>
-                                <FormMessage
-                                    className="text-sm" />
-                            </div>
-                            <FormControl className="w-full">
-                                <Input
-                                    className="h-8"
-                                    disabled={loading}
-                                    placeholder="ex. Software Development Engineer - 1"
-                                    {...field}
-                                    value={field.value || ""}
-                                />
-                            </FormControl>
-                        </FormItem>
-                    )}
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="w-full p-8 rounded-lg flex-col flex items-start justify-start gap-6 shadow-md "
+                >
+                    <FormField
+                        control={form.control}
+                        name="company"
+                        render={({ field }) => (
+                            <FormItem className="w-full space-y-4">
+                                <div className="w-full flex items-center justify-between">
+                                    <FormLabel>Company</FormLabel>
+                                    <FormMessage className="text-sm" />
+                                </div>
+                                <FormControl>
+                                    <Input
+                                        className="h-12"
+                                        disabled={loading}
+                                        placeholder="ex. Walmart"
+                                        {...field}
+                                        value={field.value || ""}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="position"
+                        render={({ field }) => (
+                            <FormItem className="w-full space-y-4">
+                                <div className="w-full flex items-center justify-between">
+                                    <FormLabel>Position / Role</FormLabel>
+                                    <FormMessage className="text-sm" />
+                                </div>
+                                <FormControl>
+                                    <Input
+                                        className="h-12"
+                                        disabled={loading}
+                                        placeholder="ex. Software Development Engineer - 1"
+                                        {...field}
+                                        value={field.value || ""}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
                     />
 
                     <FormField
@@ -141,9 +172,9 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
                                 </div>
                                 <FormControl>
                                     <Textarea
-                                        className="h-8"
+                                        className="h-12"
                                         disabled={loading}
-                                        placeholder="ex. We are looking for a Software Development Engineer - 1 to join our team. The ideal candidate will have experience in software development and a strong understanding of computer science principles."
+                                        placeholder="ex. We are looking for a Software Development Engineer - 1 to join our team. The ideal candidate will have a strong background in software development practices and a passion for technology."
                                         {...field}
                                         value={field.value || ""}
                                     />
@@ -158,15 +189,15 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
                         render={({ field }) => (
                             <FormItem className="w-full space-y-4">
                                 <div className="w-full flex items-center justify-between">
-                                    <FormLabel>Years of Experience</FormLabel>
+                                    <FormLabel>Experience (in Years)</FormLabel>
                                     <FormMessage className="text-sm" />
                                 </div>
                                 <FormControl>
                                     <Input
                                         type="number"
-                                        className="h-8"
+                                        className="h-12"
                                         disabled={loading}
-                                        placeholder="ex. 1"
+                                        placeholder="ex. 2"
                                         {...field}
                                         value={field.value || ""}
                                     />
@@ -174,6 +205,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
                             </FormItem>
                         )}
                     />
+
                     <FormField
                         control={form.control}
                         name="techStack"
@@ -185,9 +217,9 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
                                 </div>
                                 <FormControl>
                                     <Textarea
-                                        className="h-8"
+                                        className="h-12"
                                         disabled={loading}
-                                        placeholder="ex. React, Node.js, Express, MongoDB"
+                                        placeholder="ex. React, Node.js, Express, MongoDB, AWS, Docker, Google Cloud"
                                         {...field}
                                         value={field.value || ""}
                                     />
@@ -195,6 +227,25 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
                             </FormItem>
                         )}
                     />
+                    
+                    <div className="w-full flex items-center justify-end gap-4">
+                        <Button
+                            type="reset"
+                            variant="outline"
+                            size={"sm"}
+                            disabled={isSubmitting || loading}
+                            onClick={() => form.reset()}
+                        >Reset</Button>
+                        <Button
+                            type="submit"
+                            variant="primary"
+                            size={"sm"}
+                            disabled={isSubmitting || loading || !isValid}
+                        >
+                            {loading ? (<Loader className = "text-gray-500 animate-spin" />) : (actions)}
+                        </Button>
+
+                    </div>
                 </form>
             </FormProvider>
         </div>
