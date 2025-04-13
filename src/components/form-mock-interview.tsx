@@ -143,7 +143,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
                                     <Textarea
                                         className="h-8"
                                         disabled={loading}
-                                        placeholder="ex. We are looking for a Software Development Engineer - 1 to join our team. The ideal candidate will have some experience in software development and a strong understanding of computer science principles."
+                                        placeholder="ex. We are looking for a Software Development Engineer - 1 to join our team. The ideal candidate will have experience in software development and a strong understanding of computer science principles."
                                         {...field}
                                         value={field.value || ""}
                                     />
