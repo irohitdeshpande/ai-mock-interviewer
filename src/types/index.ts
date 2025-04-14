@@ -10,6 +10,7 @@ export interface User {
 }
 
 export interface Interview {
+    whyJoinUs: string | null | undefined;
     company: string | undefined;
     interviewDate: Date | null | undefined;
     interviewTime: string | null | undefined;
