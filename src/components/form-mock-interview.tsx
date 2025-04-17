@@ -15,7 +15,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner";
 import { chatSession } from "@/scripts";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "@/config/firebase.config";
 
 interface FormMockInterviewProps {
@@ -149,8 +149,26 @@ Ensure all answers are detailed enough to assess both the candidate's knowledge 
       
       if (initialData) {
         // Update logic would go here
-        toast(toastMessage.title, { description: toastMessage.description });
-        navigate("/generate", { replace: true });
+        const aiResult = await generateAiResponse(data);
+        console.log("Data to update:", {
+          ...data,
+          questions: aiResult,
+        });
+        
+        try {
+          await updateDoc(doc(db, "interviews", initialData?.id), {
+            questions: aiResult,
+            ...data,
+            createdAt: serverTimestamp(),
+          });
+          
+          toast(toastMessage.title, { description: toastMessage.description });
+          navigate("/generate", { replace: true });
+        } catch (firebaseError) {
+          console.error("Firebase error:", firebaseError);
+          toast.error("Database error: Could not update interview data");
+        }
+
       } else {
         // Create new mock interview
         if (isValid) {
