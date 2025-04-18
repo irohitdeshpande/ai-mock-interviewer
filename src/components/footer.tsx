@@ -1,19 +1,35 @@
-// const Footer = () => {
-//   return (
-//     <footer className="w-full text-center py-4 bg-gray-100 text-gray-600 border-t border-gray-300">
-//       © {new Date().getFullYear()} Rohit Deshpande. All rights reserved.
-//     </footer>
-//   );
-// };
-
-// export default Footer;
-// Compare this snippet from src/components/footer.tsx:
+import { Zap } from "lucide-react";
 import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full text-center py-2 bg-gray-100 text-gray-600 border-t border-gray-300">
-      © {new Date().getFullYear()} Rohit Deshpande. All rights reserved.
+    <footer className="w-full py-8 px-6 bg-slate-900 text-slate-300">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Logo and tagline */}
+          <div className="flex flex-col items-center md:items-start">
+            <div className="flex items-center space-x-2 mb-2">
+              <Zap className="h-5 w-5 text-indigo-400" />
+              <span className="font-bold text-lg text-white">IntervAI</span>
+            </div>
+            <p className="text-sm text-slate-400 text-center md:text-left">
+              AI-powered interview preparation
+            </p>
+          </div>
+
+          {/* Quick links */}
+          <div className="flex gap-6 md:gap-12">
+            <a href="/" className="text-sm hover:text-indigo-400 transition-colors">Features</a>
+            <a href="/" className="text-sm hover:text-indigo-400 transition-colors">Contact</a>
+            <a href="/" className="text-sm hover:text-indigo-400 transition-colors">About</a>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-6 pt-6 border-t border-slate-800 text-sm text-slate-500 text-center">
+          © {new Date().getFullYear()} IntervAI. Made by Rohit Deshpande. All rights reserved.
+        </div>
+      </div>
     </footer>
   );
 };

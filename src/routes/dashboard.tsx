@@ -39,7 +39,7 @@ export const Dashboard = () => {
             (error) => {
                 console.log("Error on fetching : ", error);
                 toast.error("Error..", {
-                    description: "SOmething went wrong.. Try again later..",
+                    description: "Something went wrong.. Try again later..",
                 });
                 setLoading(false);
             }
