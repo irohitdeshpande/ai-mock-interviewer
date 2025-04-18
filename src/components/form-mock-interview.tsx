@@ -163,7 +163,7 @@ Ensure all answers are detailed enough to assess both the candidate's knowledge 
           });
           
           toast(toastMessage.title, { description: toastMessage.description });
-          navigate("/generate", { replace: true });
+          navigate("/interview", { replace: true });
         } catch (firebaseError) {
           console.error("Firebase error:", firebaseError);
           toast.error("Database error: Could not update interview data");
@@ -194,7 +194,7 @@ Ensure all answers are detailed enough to assess both the candidate's knowledge 
             });
             
             toast(toastMessage.title, { description: toastMessage.description });
-            navigate("/generate", { replace: true });
+            navigate("/interview", { replace: true });
           } catch (firebaseError) {
             console.error("Firebase error:", firebaseError);
             toast.error("Database error: Could not save interview data");

@@ -15,7 +15,11 @@ export const CreateEditPage = () => {
                 try {
                     const interviewDoc = await getDoc(doc(db, "interviews", interviewId));
                     if (interviewDoc.exists()) {
-                        setInterview(interviewDoc.data() as Interview);
+                        setInterview({
+                            id: interviewDoc.id,
+                            ...interviewDoc.data()
+                        } as Interview
+                        );
                     }
                 } catch (error) {
                     console.error("Error fetching interview:", error);
@@ -26,8 +30,8 @@ export const CreateEditPage = () => {
     }, [interviewId]);
 
     return (
-        <div className = "my-4 flex-col w-full">
-            <FormMockInterview initialData = {interview} />
+        <div className="my-4 flex-col w-full">
+            <FormMockInterview initialData={interview} />
         </div>
     )
 };

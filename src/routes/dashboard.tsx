@@ -1,4 +1,5 @@
 import { Headings } from "@/components/headings"
+import { InterviewPin } from "@/components/pin";
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/config/firebase.config";
@@ -69,7 +70,7 @@ export const Dashboard = () => {
                     ))
                 ) : interviews.length > 0 ? (
                     interviews.map((interview) => (
-                        <p key={interview.id}>interview={interview.position}</p>
+                        <InterviewPin key = {interview.id} interview = {interview}/>
                     ))
                 ) : (
                     <div className="md:col-span-3 flex flex-col items-center justify-center h-[calc(100vh-200px)]">
