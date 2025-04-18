@@ -80,7 +80,7 @@ export const InterviewPin = ({ interview, onMockPage = false }: InterviewPinProp
                             content="Start"
                             buttonVariant={"ghost"}
                             onClick={() => {
-                                navigate(`/interview/start-interview/${interview?.id}`, {
+                                navigate(`/interview/simulate/${interview?.id}`, {
                                     replace: true,
                                 });
                             }}

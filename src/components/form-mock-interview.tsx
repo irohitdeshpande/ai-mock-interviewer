@@ -231,7 +231,7 @@ Ensure all answers are detailed enough to assess both the candidate's knowledge 
       <div className="mt-4 flex items-center justify-between w-full">
         <Headings title={title} isSubHeading description={""} />
         {initialData && (
-          <Button size={"icon"} variant={"ghost"}>
+          <Button size={"icon"} variant={"destructive"}>
             <Trash2Icon className="h-4 w-4" />
           </Button>
         )}
