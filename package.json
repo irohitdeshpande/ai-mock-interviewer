@@ -30,9 +30,11 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
     "react-router-dom": "^7.2.0",
+    "react-webcam": "^7.2.0",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
+    "webcam": "^3.2.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -40,6 +42,7 @@
     "@types/node": "^22.13.5",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/react-webcam": "^3.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.21.0",

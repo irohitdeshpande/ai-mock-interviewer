@@ -17,7 +17,7 @@ import { Eye, Newspaper, Sparkles } from "lucide-react";
 
 
 interface InterviewPinProps {
-    interview: Interview;
+    interview?: Interview;
     onMockPage?: boolean;
 }
 
@@ -32,21 +32,21 @@ export const InterviewPin = ({ interview, onMockPage = false }: InterviewPinProp
             <CardDescription className="text-sm text-muted-foreground">
                 {interview?.company}
             </CardDescription>
-            <div className="w-full flex items-center justify-between gap-2 flex-wrap">
-                {interview.techStack.split(",").map((word, index) => (
+            <div className="w-full flex items-center gap-1 flex-wrap">
+                {interview?.techStack.split(",").map((word, index) => (
                     <Badge key={index} variant={"outline"} className="text-xs text-muted-foreground hover:bg-indigo-100 hover:text-indigo-600">{word}</Badge>
                 ))}
             </div>
 
             <CardFooter className={cn("w-full flex items-center p-0", onMockPage ? "justify-end" : "justify-between")}>
                 <p className="text-[12px] text-muted-foreground truncate whitespace-nowrap">
-                    {`${new Date(interview?.createdAt.toDate()).toLocaleDateString(
+                    {interview?.createdAt ? `${new Date(interview.createdAt.toDate()).toLocaleDateString(
                         "en-UK",
                         { dateStyle: "long" }
-                    )} - ${new Date(interview?.createdAt.toDate()).toLocaleTimeString(
+                    )} - ${new Date(interview.createdAt.toDate()).toLocaleTimeString(
                         "en-UK",
                         { timeStyle: "short" }
-                    )}`}
+                    )}` : "Date not available"}
                 </p>
                 {!onMockPage && (
                     <div className="flex items-center justify-center">
