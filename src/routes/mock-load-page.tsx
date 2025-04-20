@@ -1,7 +1,7 @@
 import { db } from '@/config/firebase.config';
 import { Interview } from '@/types';
 import { getDoc, doc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { LoaderPage } from './loader-page';
 import { CustomBreadCrumb } from '@/components/custom-bread-crumb';
@@ -60,7 +60,7 @@ export const MockLoadPage = () => {
         <div className="flex flex-col w-full gap-8 py-5">
             <div className="flex items-center justify-between w-full gap-2">
                 <CustomBreadCrumb
-                    breadCrumbPage={"Start Interview"}
+                    breadCrumbPage={"Guidelines"}
                     breadCrumpItems={[{ label: "Interview", link: "/interview" }]}
                 />
                 <Link to={`/interview/simulate/${interviewId}/start`}>
