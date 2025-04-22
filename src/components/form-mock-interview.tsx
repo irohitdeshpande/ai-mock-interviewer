@@ -102,7 +102,7 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
   const generateAiResponse = async (data: FormData) => {
     try {
       const prompt = `
-As an experienced technical interviewer at ${data?.company}, create a JSON array containing 8 comprehensive interview questions with detailed answers tailored for this specific position. Include 5 technical questions that assess depth of knowledge in the specified tech stack, 2 behavioral/soft skills questions relevant to the role and team dynamics, and 1 company-specific question that evaluates cultural fit and industry knowledge.
+As an experienced technical interviewer at ${data?.company}, create a JSON array containing 8 comprehensive interview questions with detailed answers tailored for this specific position. Start with asking the interviewee to introduce themselves and about their background. Include 4 technical questions that assess depth of knowledge in the specified tech stack, 2 behavioral/soft skills questions relevant to the role and team dynamics, and 1 company-specific question that evaluates cultural fit and industry knowledge.
 Format the output strictly as a JSON array without any explanations or additional text:
 [
   { "question": "<Question text>", "answer": "<Answer text>" },
@@ -131,10 +131,8 @@ Ensure all answers are detailed enough to assess both the candidate's knowledge 
 `;
       const aiResult = await chatSession.sendMessage(prompt);
       const responseText = aiResult.response.text();
-      console.log("AI raw response:", responseText);
       
       const cleanedAiResponse = cleanedResponse(responseText);
-      console.log("Cleaned response:", cleanedAiResponse);
       
       return cleanedAiResponse;
     } catch (error) {
