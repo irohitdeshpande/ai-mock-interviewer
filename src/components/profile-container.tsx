@@ -9,7 +9,7 @@ export const ProfileContainer = () => {
     if (!isLoaded) {
         return (
             <div className = "flex items-center">
-                <Loader className = "min-w-4 min-h-4 animate-spin text-gray-700" />
+                <Loader className = "min-w-4 min-h-4 bg-indigo-600 text-white hover:bg-indigo-800" />
             </div>
         )
     }
@@ -19,7 +19,7 @@ export const ProfileContainer = () => {
             <UserButton afterSignOutUrl="/" />
         ) : (
             <Link to = {"signin"}>
-              <Button size = "sm">Get Started</Button>  
+              <Button className = "bg-indigo-600 text-white hover:bg-indigo-700" size = "sm">Get Started</Button>  
             </Link>
         )}
     </div>
