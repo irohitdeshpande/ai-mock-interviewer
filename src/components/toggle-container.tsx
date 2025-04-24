@@ -16,7 +16,7 @@ export const ToggleContainer = () => {
   return (
     <Sheet>
       <SheetTrigger className="block">
-        <Menu className = "w-6 h-6 md:hidden" />
+        <Menu className="w-6 h-6 text-indigo-600 md:hidden" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -25,7 +25,7 @@ export const ToggleContainer = () => {
         <nav className = "items-start flex flex-col gap-5">
         <NavigationRoutes isMobile />
         {userId && (
-          <NavLink to='/generate' className={({ isActive }) => cn("text-base text-neutral-600", isActive && "text-neutral-900 font-semibold"
+          <NavLink to='/interview' className={({ isActive }) => cn("text-base text-neutral-600", isActive && "text-indigo-900 font-semibold"
           )}>
             Take an Interview
           </NavLink>
