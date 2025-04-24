@@ -6,15 +6,27 @@ import { db } from "@/config/firebase.config";
 import { Interview } from "@/types";
 import { useAuth } from "@clerk/clerk-react";
 import { Separator } from "@radix-ui/react-separator";
-import { query, collection, where, onSnapshot } from "firebase/firestore";
-import { Plus } from "lucide-react";
+import { query, collection, where, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { Loader, Plus, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export const Dashboard = () => {
     const [interviews, setInterviews] = useState<Interview[]>([]);
     const [loading, setLoading] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [interviewToDelete, setInterviewToDelete] = useState<string | null>(null);
     const { userId } = useAuth();
 
     useEffect(() => {
@@ -49,13 +61,52 @@ export const Dashboard = () => {
         return () => unsubscribe();
     }, [userId]);
 
+    const handleDelete = async () => {
+        if (!interviewToDelete) return;
+        
+        try {
+            setDeleteLoading(true);
+            await deleteDoc(doc(db, "interviews", interviewToDelete));
+            toast.success("Deleted!", { description: "Interview deleted successfully" });
+        } catch (error) {
+            console.error("Error deleting interview:", error);
+            toast.error("Failed to delete", { description: "Could not delete the interview. Please try again." });
+        } finally {
+            setDeleteLoading(false);
+            setInterviewToDelete(null);
+        }
+    };
+
+    // Function to create an enhanced InterviewPin with delete button
+    const renderInterviewPin = (interview: Interview) => {
+        return (
+            <div key={interview.id} className="relative group">
+                <InterviewPin interview={interview} />
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button 
+                        size="icon" 
+                        variant="destructive" 
+                        className="h-8 w-8"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setInterviewToDelete(interview.id);
+                        }}
+                    >
+                        <Trash2Icon className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             <div className="flex w-full items-center justify-between">
                 {/* heading */}
                 <Headings title="Dashboard" description="Your dashboard for all your interviews" />
                 <Link to={"/interview/create"}>
-                    <Button size={"sm"}>
+                    <Button size={"sm"} variant={"secondary"} className="bg-indigo-600 text-white hover:bg-indigo-500 border-indigo-600">
                         <Plus /> Add New
                     </Button>
                 </Link>
@@ -69,9 +120,7 @@ export const Dashboard = () => {
                         <Skeleton key={index} className="h-24 md:h-32 rounded-md" />
                     ))
                 ) : interviews.length > 0 ? (
-                    interviews.map((interview) => (
-                        <InterviewPin key = {interview.id} interview = {interview}/>
-                    ))
+                    interviews.map((interview) => renderInterviewPin(interview))
                 ) : (
                     <div className="md:col-span-3 flex flex-col items-center justify-center h-[calc(100vh-200px)]">
                         <svg
@@ -94,7 +143,7 @@ export const Dashboard = () => {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="bg-black text-white hover:bg-gray-800 border-black"
+                                className="bg-indigo-600 text-white hover:bg-indigo-500 border-indigo-600"
                             >
                                 Create Interview
                             </Button>
@@ -102,7 +151,28 @@ export const Dashboard = () => {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <AlertDialog open={!!interviewToDelete} onOpenChange={(open) => !open && setInterviewToDelete(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the mock interview.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel disabled={deleteLoading}>Cancel</AlertDialogCancel>
+                        <AlertDialogAction 
+                            onClick={handleDelete} 
+                            disabled={deleteLoading}
+                            className="bg-red-600 hover:bg-red-700"
+                        >
+                            {deleteLoading ? <Loader className="h-4 w-4 animate-spin" /> : "Delete"}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </>
     );
 };
-

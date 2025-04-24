@@ -125,7 +125,7 @@ export const MockLoadPage = () => {
                 </div>
             </Alert>
 
-            <div className="flex items-center justify-center w-full h-full">
+            <div className="w-full max-w-xl mx-auto">
                 <div className="w-full aspect-video flex flex-col items-center justify-center border p-4 bg-indigo-50 rounded-md">
                     {isWebCamEnabled ? (
                         <WebCam

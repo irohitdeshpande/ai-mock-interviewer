@@ -57,7 +57,7 @@ const generateResult = async (
         // Using the chatSession from @/scripts
         const result = await chatSession.sendMessage(prompt);
         const text = result.response.text();
-        
+
         // Parse the response
         const parsedResult: AIResponse = cleanedResponse(text);
         return parsedResult;
@@ -76,7 +76,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
     const [loading, setLoading] = useState(false);
     const { userId } = useAuth();
     const { interviewId } = useParams();
-    
+
     const {
         error,
         interimResult,
@@ -93,25 +93,25 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
         },
         crossBrowser: true, // Enable cross-browser support
     });
-    
+
     useEffect(() => {
         if (error) {
             console.error("Speech recognition error:", error);
             toast.error("Speech recognition error. Please check your microphone permissions.");
         }
     }, [error]);
-    
+
     useEffect(() => {
         const combineTranscripts = results
             .filter((result): result is ResultType => typeof result !== "string")
             .map((result) => result.transcript)
             .join(" ");
-        
+
         if (combineTranscripts) {
             setUserAnswer(combineTranscripts);
         }
     }, [results]);
-    
+
     const recordAnswer = useCallback(async () => {
         if (isRecording) {
             stopSpeechToText();
@@ -119,7 +119,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
                 toast.warning("Please provide a more detailed answer (at least 50 characters).");
                 return;
             }
-            
+
             // AI Result Generation
             setIsAIGenerating(true);
             try {
@@ -147,7 +147,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
             }
         }
     }, [isRecording, question, userAnswer, stopSpeechToText, startSpeechToText]);
-    
+
     const recordNewAnswer = useCallback(() => {
         setUserAnswer("");
         if (isRecording) {
@@ -158,7 +158,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
             toast.info("New recording started. Start speaking...");
         }, 300);
     }, [isRecording, stopSpeechToText, startSpeechToText]);
-    
+
     const saveAnswer = useCallback(async () => {
         setLoading(true);
         if (!aiResult) {
@@ -166,7 +166,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
             setLoading(false);
             return;
         }
-        
+
         const currentQuestion = question.question;
         try {
             // query the firebase to check if user answer already exists for this question
@@ -176,7 +176,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
                 where("question", "==", currentQuestion)
             );
             const querySnap = await getDocs(userAnswerQuery);
-            
+
             // if the user already answered the question don't save it again
             if (!querySnap.empty) {
                 toast.info("Already Answered", {
@@ -208,7 +208,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
             setOpen(false);
         }
     }, [aiResult, question, userId, interviewId, userAnswer, isRecording, stopSpeechToText]);
-    
+
     return (
         <div className="w-full flex flex-col items-center gap-8 mt-4">
             {/* save modal */}
@@ -218,26 +218,30 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
                 onConfirm={saveAnswer}
                 loading={loading}
             />
-            
-            <div className="w-full aspect-video flex flex-col items-center justify-center border p-4 bg-indigo-50 rounded-md">
-                {isWebCam ? (
-                    <WebCam
-                        audio
-                        onUserMedia={() => setIsWebCam(true)}
-                        onUserMediaError={(err) => {
-                            console.error("Webcam error:", err);
-                            setIsWebCam(false);
-                            toast.error("Failed to access webcam. Please check your permissions.");
-                        }}
-                        className="w-full h-full object-cover rounded-md"
-                    />
-                ) : (
-                    <WebcamIcon className="w-16 h-16 text-muted-foreground" />
-                )}
+
+            <div className="w-full max-w-xl mx-auto">
+                <div className="w-full aspect-video flex flex-col items-center justify-center border p-4 bg-indigo-50 rounded-md">
+                    {isWebCam ? (
+                        <WebCam
+                            audio
+                            onUserMedia={() => setIsWebCam(true)}
+                            onUserMediaError={(err) => {
+                                console.error("Webcam error:", err);
+                                setIsWebCam(false);
+                                toast.error("Failed to access webcam. Please check your permissions.");
+                            }}
+                            className="w-full h-full object-cover rounded-md"
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <WebcamIcon className="w-16 h-16 text-muted-foreground" />
+                        </div>
+                    )}
+                </div>
             </div>
-            
+
             <div className="flex items-center justify-center gap-4 w-full">
-                <TooltipButton 
+                <TooltipButton
                     buttonVariant="secondary"
                     content={isWebCam ? "Turn Off Camera" : "Turn On Camera"}
                     icon={
@@ -249,8 +253,8 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
                     }
                     onClick={() => setIsWebCam(!isWebCam)}
                 />
-                
-                <TooltipButton 
+
+                <TooltipButton
                     buttonVariant="secondary"
                     content={isRecording ? "Stop Recording" : "Start Recording"}
                     icon={
@@ -262,16 +266,16 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
                     }
                     onClick={recordAnswer}
                 />
-                
-                <TooltipButton 
+
+                <TooltipButton
                     buttonVariant="secondary"
                     content="Record Again"
                     icon={<RefreshCw className="min-w-5 min-h-5" />}
                     onClick={recordNewAnswer}
                     disbaled={isAIGenerating}
                 />
-                
-                <TooltipButton 
+
+                <TooltipButton
                     buttonVariant="secondary"
                     content="Save Result"
                     icon={
@@ -285,7 +289,7 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
                     disbaled={!aiResult || loading}
                 />
             </div>
-            
+
             <div className="w-full mt-4 p-4 border rounded-md bg-indigo-100">
                 <h2 className="text-lg font-semibold text-indigo-600">Your Answer</h2>
                 <p className="text-sm mt-2 text-indigo-600 whitespace-normal">

@@ -19,10 +19,11 @@ const Footer: React.FC = () => {
 
           {/* Quick links */}
           <div className="flex gap-6 md:gap-12">
-            <a href="/" className="text-sm hover:text-indigo-400 transition-colors">Features</a>
-            <a href="/" className="text-sm hover:text-indigo-400 transition-colors">Contact</a>
-            <a href="/" className="text-sm hover:text-indigo-400 transition-colors">About</a>
+            <a href="/#features" className="text-sm hover:text-indigo-400 transition-colors">Features</a>
+            <a href="/#how-it-works" className="text-sm hover:text-indigo-400 transition-colors">How it Works?</a>
+            <a href="/#testimonials" className="text-sm hover:text-indigo-400 transition-colors">Testimonials</a>
           </div>
+
         </div>
 
         {/* Copyright */}

@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
 
       {/* Hero Section */}
-      <section className="w-full py-20 px-6">
+      <section id = "landing" className="w-full py-20 px-6">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 space-y-8">
             <div>
@@ -150,7 +150,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* How It Works */}
-      <section className="w-full py-20 px-6 bg-slate-50">
+      <section id = "how-it-works" className="w-full py-20 px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">How It Works</h2>
@@ -204,7 +204,7 @@ const HomePage: React.FC = () => {
 
           <Tabs defaultValue="tech" className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8">
-              <TabsTrigger value="tech">SWE</TabsTrigger>
+              <TabsTrigger value="tech">Software Engineer</TabsTrigger>
               <TabsTrigger value="da">Data Analyst</TabsTrigger>
               <TabsTrigger value="qa">Quality Assurance</TabsTrigger>
             </TabsList>
@@ -212,7 +212,7 @@ const HomePage: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
-                    quote: "After practicing with InterviewAce for just two weeks, I felt so much more confident during my Google interview. I got the job!",
+                    quote: "After practicing with IntervAI for just two weeks, I felt so much more confident during my Google interview. I got the job!",
                     author: "Michael L.",
                     role: "Software Engineer"
                   },
@@ -238,14 +238,14 @@ const HomePage: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
-                    quote: "The finance-specific questions were spot on. I was asked almost identical questions in my actual interview at JP Morgan.",
-                    author: "Sarah T.",
-                    role: "Investment Analyst"
+                    quote: "Practicing SQL and case studies on IntervAI made me feel fully prepared for my data analyst interview at EY.",
+                    author: "Neha M.",
+                    role: "Data Analyst"
                   },
                   {
-                    quote: "IntervAI helped me articulate my experience with financial models much more effectively. Worth every penny!",
-                    author: "James D.",
-                    role: "Financial Advisor"
+                    quote: "I struggled with interpreting dashboards and metrics, but the tailored mock sessions helped me nail my interview at Nielsen.",
+                    author: "Carlos G.",
+                    role: "Business Data Analyst"
                   }
                 ].map((testimonial, index) => (
                   <Card key={index} className="border-slate-200">
@@ -264,14 +264,14 @@ const HomePage: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
-                    quote: "I was nervous about behavioral questions, but after practicing with IntervAI, I handled them with ease in my nursing interview.",
-                    author: "Elena R.",
-                    role: "Registered Nurse"
+                    quote: "The bug-reporting scenario questions on IntervAI were spot-on. Helped me ace my QA round at Infosys.",
+                    author: "Tanya S.",
+                    role: "Quality Assurance Engineer"
                   },
                   {
-                    quote: "The feedback on my patient care scenarios was invaluable. I felt much more prepared for my hospital interviews.",
-                    author: "David M.",
-                    role: "Medical Technologist"
+                    quote: "I gained confidence in explaining test cases and automation workflows clearly. IntervAI made a big difference.",
+                    author: "Mark J.",
+                    role: "QA Automation Tester"
                   }
                 ].map((testimonial, index) => (
                   <Card key={index} className="border-slate-200">
