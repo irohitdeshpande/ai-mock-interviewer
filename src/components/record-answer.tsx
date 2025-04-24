@@ -307,16 +307,6 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
                         {error}
                     </p>
                 )}
-                {aiResult && (
-                    <div className="mt-4 p-3 bg-white rounded-md">
-                        <h3 className="font-medium text-indigo-700">Feedback:</h3>
-                        <p className="text-sm">{aiResult.feedback}</p>
-                        <p className="text-sm mt-1">
-                            <strong>Rating: </strong>
-                            {aiResult.ratings}/10
-                        </p>
-                    </div>
-                )}
             </div>
         </div>
     );
