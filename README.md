@@ -64,7 +64,7 @@ To set up and run IntervAI on your local machine:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ai-mock-interviewer.git
+   git clone https://github.com/irohitdeshpande/ai-mock-interviewer.git
    cd src
    ```
 
