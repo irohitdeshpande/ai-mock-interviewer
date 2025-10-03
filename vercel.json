@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "api/generate-questions.ts": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  "env": {
+    "GOOGLE_GENERATIVE_AI_API_KEY": "@google_ai_api_key"
+  }
+}

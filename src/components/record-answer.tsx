@@ -3,7 +3,7 @@ import { CircleStop, Loader, Mic, RefreshCw, Save, Video, VideoOff, WebcamIcon }
 import { useEffect, useState, useCallback } from 'react';
 import useSpeechToText, { ResultType } from 'react-hook-speech-to-text';
 import { useParams } from 'react-router-dom';
-import WebCam from 'react-webcam';
+// WebCam removed - using native WebRTC
 import { TooltipButton } from './tooltip-button';
 import { SaveModal } from './save-modal';
 import { db } from '@/config/firebase.config';
@@ -222,15 +222,25 @@ export const RecordAnswer = ({ question, isWebCam, setIsWebCam }: RecordAnswerPr
             <div className="w-full max-w-xl mx-auto">
                 <div className="w-full aspect-video flex flex-col items-center justify-center border p-4 bg-indigo-50 rounded-md">
                     {isWebCam ? (
-                        <WebCam
-                            audio
-                            onUserMedia={() => setIsWebCam(true)}
-                            onUserMediaError={(err) => {
-                                console.error("Webcam error:", err);
-                                setIsWebCam(false);
-                                toast.error("Failed to access webcam. Please check your permissions.");
-                            }}
+                        <video
+                            autoPlay
+                            muted
+                            playsInline
                             className="w-full h-full object-cover rounded-md"
+                            ref={(video) => {
+                                if (video && !video.srcObject) {
+                                    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                                        .then(stream => {
+                                            video.srcObject = stream;
+                                            setIsWebCam(true);
+                                        })
+                                        .catch((err: unknown) => {
+                                            console.error("Webcam error:", err);
+                                            setIsWebCam(false);
+                                            toast.error("Failed to access webcam. Please check your permissions.");
+                                        });
+                                }
+                            }}
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center">

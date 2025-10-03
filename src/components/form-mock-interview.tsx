@@ -14,9 +14,9 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/f
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner";
-import { chatSession } from "@/scripts";
 import { addDoc, collection, deleteDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "@/config/firebase.config";
+import { questionGenerationService } from "@/services/question-generation.service";
 import { 
   AlertDialog,
   AlertDialogAction,
@@ -84,68 +84,10 @@ export const FormMockInterview = ({ initialData }: FormMockInterviewProps) => {
     ? { title: "Updated!", description: "Changes saved successfully..." }
     : { title: "Created!", description: "New Mock Interview created..." };
 
-  const cleanedResponse = (responseText: string) => {
-    try {
-      let cleanText = responseText.trim();
-      
-      // First try to find a JSON array in the response
-      const arrayMatch = cleanText.match(/\[\s*\{.*\}\s*\]/s);
-      if (arrayMatch) {
-        return JSON.parse(arrayMatch[0]);
-      }
-      
-      // If that fails, try removing code blocks and parsing
-      cleanText = cleanText.replace(/```json|```|`/g, "").trim();
-      
-      // If it's still not valid JSON, try to find array syntax within the text
-      const bracketMatch = cleanText.match(/\[([\s\S]*)\]/);
-      if (bracketMatch) {
-        return JSON.parse(`[${bracketMatch[1]}]`);
-      }
-      
-      return JSON.parse(cleanText);
-    } catch (error) {
-      console.error("Error parsing response:", error, responseText);
-      throw new Error("Failed to parse AI response. Please try again.");
-    }
-  };
-
+  // Use the enhanced question generation service
   const generateAiResponse = async (data: FormData) => {
     try {
-      const prompt = `
-As an experienced technical interviewer at ${data?.company}, create a JSON array containing 8 comprehensive interview questions with detailed answers tailored for this specific position. Start with asking the interviewee to introduce themselves and about their background. Include 4 technical questions that assess depth of knowledge in the specified tech stack, 2 behavioral/soft skills questions relevant to the role and team dynamics, and 1 company-specific question that evaluates cultural fit and industry knowledge.
-Format the output strictly as a JSON array without any explanations or additional text:
-[
-  { "question": "<Question text>", "answer": "<Answer text>" },
-  ...
-]
-Job Information:
-- Position: ${data?.position}
-- Company: ${data?.company}
-- Description: ${data?.description}
-- Experience Required: ${data?.experience} 
-- Tech Stack: ${data?.techStack}
-- Why Join Us: ${data?.whyJoinUs}
-For technical questions:
-- Create problems that directly apply ${data?.techStack} to solve challenges specific to ${data?.company}'s industry
-- Include a system design question relevant to the company's scale and technical challenges
-- Address performance optimization scenarios that would impact ${data?.company}'s product/service
-- Include at least one debugging/troubleshooting question based on realistic situations
-- Focus on demonstrating practical experience with the required technologies
-For behavioral/soft skill questions:
-- Assess collaboration skills in the context of ${data?.company}'s team structure
-- Evaluate ability to handle priorities based on typical challenges in the role
-For the company-specific question:
-- Assess the candidate's understanding of ${data?.company}'s industry position, challenges, or technical direction
-- Include elements from the Why Join Us section to gauge alignment with company values
-Ensure all answers are detailed enough to assess both the candidate's knowledge depth and communication skills.
-`;
-      const aiResult = await chatSession.sendMessage(prompt);
-      const responseText = aiResult.response.text();
-      
-      const cleanedAiResponse = cleanedResponse(responseText);
-      
-      return cleanedAiResponse;
+      return await questionGenerationService.generateQuestions(data);
     } catch (error) {
       console.error("Error generating AI response:", error);
       throw new Error("Failed to generate interview questions. Please try again.");

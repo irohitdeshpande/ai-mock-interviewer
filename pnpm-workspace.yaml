@@ -1,2 +1,8 @@
 onlyBuiltDependencies:
+  - '@clerk/shared'
+  - '@firebase/util'
+  - '@vercel/speed-insights'
+  - esbuild
   - msw
+  - protobufjs
+  - sharp
