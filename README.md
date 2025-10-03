@@ -17,6 +17,12 @@ IntervAI simulates real interview experiences by generating high-quality, role-s
 - **Industry-Relevant Topics**: Questions covering technical skills, soft skills, and industry knowledge
 - **Varied Difficulty Levels**: Practice with questions ranging from basic to advanced
 
+### 🎙️ Voice AI Interviewer (New!)
+- **Real-Time Voice Conversations**: Practice with an AI interviewer that speaks and listens like a real person
+- **Natural Dialogue Flow**: The AI asks follow-up questions and responds to your answers naturally
+- **Professional Interview Experience**: Simulates actual interview conditions with voice-based interaction
+- **Automatic Transcription**: Your conversation is transcribed and analyzed for feedback
+
 ### 📊 AI-Assisted Feedback System
 - **Comprehensive Response Analysis**: Get detailed feedback on the strengths and weaknesses of your answers
 - **Rating System**: Each response is rated on a scale of 1-10 to track your improvement
@@ -41,8 +47,11 @@ IntervAI simulates real interview experiences by generating high-quality, role-s
 
 1. **Create Your Profile**: Enter your target position, industry, experience level, and skills
 2. **Generate Interview**: Fill the details listing the company you wish to interview for, your technical skills and why you want to apply to that company
-3. **Practice Interviews**: Answer AI-generated questions in a simulated interview environment
-4. **Receive Feedback**: Get instant, detailed feedback and ratings on your responses
+3. **Choose Interview Mode**: 
+   - **Traditional Mode**: Answer AI-generated questions via text/speech-to-text
+   - **Voice AI Mode**: Conduct a real-time voice interview with an AI interviewer (requires VAPI setup)
+4. **Practice Interviews**: Answer questions in a simulated interview environment
+5. **Receive Feedback**: Get instant, detailed feedback and ratings on your responses
 
 ## Getting Started
 
@@ -65,20 +74,34 @@ To set up and run IntervAI on your local machine:
 1. Clone the repository:
    ```bash
    git clone https://github.com/irohitdeshpande/ai-mock-interviewer.git
-   cd src
+   cd ai-mock-interviewer
    ```
 
 2. Install dependencies:
    ```bash
-   pnpm install
+   npm install
    ```
 
-3. Start the development server:
+3. Configure environment variables:
    ```bash
-   pnpm run dev
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and add your API keys:
+   - `VITE_GEMINI_API_KEY` - For AI question generation and feedback
+   - `VITE_CLERK_PUBLISHABLE_KEY` - For authentication
+   - `VITE_FIREBASE_*` - For database storage
+   - `VITE_VAPI_PUBLIC_KEY` - For voice AI interviewer (optional)
+   - `VITE_VAPI_ASSISTANT_ID` - For voice AI interviewer (optional)
+   
+   See [VAPI_SETUP.md](VAPI_SETUP.md) for detailed VAPI configuration instructions.
+
+4. Start the development server:
+   ```bash
+   npm run dev
    ```
 
-4. Access the application:
+5. Access the application:
    - Open your browser and navigate to `http://localhost:5173`
    - For best experience, use *Google Chrome* or open in *incognito mode*
 
@@ -95,8 +118,10 @@ To set up and run IntervAI on your local machine:
 - Built with React, Vite, and TypeScript for a seamless, responsive experience
 - Utilized the Gemini API to generate relevant questions and provide meaningful feedback
 - Implemented speech-to-text functionality using react-hooks-speech-to-text for hands-free answering
+- **Integrated VAPI Voice AI for real-time voice interviews with natural conversation flow**
 - Secured user authentication and data protection using Clerk
 - Cloud-based storage for interview history and performance data on Firebase
+- Google Meet-style interview interface for professional experience
 
 ## Contributing
 
