@@ -10,8 +10,8 @@ import {
 export interface InterviewSession {
   interviewId: string;
   userId: string;
-  startedAt: any;
-  endedAt?: any;
+  startedAt: ReturnType<typeof serverTimestamp>;
+  endedAt?: ReturnType<typeof serverTimestamp>;
   transcript?: string;
   status: "in_progress" | "completed" | "cancelled";
 }
@@ -23,7 +23,7 @@ export interface InterviewFeedback {
   transcript: string;
   feedback: string;
   rating: number;
-  createdAt: any;
+  createdAt: ReturnType<typeof serverTimestamp>;
 }
 
 export class FeedbackService {
@@ -113,7 +113,7 @@ export class FeedbackService {
   /**
    * Get interview feedback by interview ID
    */
-  static async getFeedback(_interviewId: string, _userId: string): Promise<any> {
+  static async getFeedback(): Promise<null> {
     try {
       // This would typically use a query to find feedback by interviewId and userId
       // For now, returning null as we'd need to implement the query

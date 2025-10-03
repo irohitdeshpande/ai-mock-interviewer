@@ -57,17 +57,17 @@ export const useVAPI = (interview: Interview | null) => {
     };
 
     // Volume level (for visual feedback)
-    const handleVolumeLevel = (_volume: number) => {
+    const handleVolumeLevel = () => {
       // This can be used to show visual feedback like audio bars
       // console.log("🔊 Volume level:", volume);
     };
 
     // Message received (transcription)
-    const handleMessage = (message: any) => {
+    const handleMessage = (message: unknown) => {
       console.log("📝 Message received:", message);
       
-      if (message.type === "transcript" && message.transcriptType === "final") {
-        const text = message.transcript || "";
+      if (message && typeof message === 'object' && 'type' in message && message.type === "transcript" && 'transcriptType' in message && message.transcriptType === "final") {
+        const text = ('transcript' in message && typeof message.transcript === 'string') ? message.transcript : "";
         setState((prev) => ({
           ...prev,
           transcript: prev.transcript + "\n" + text,
@@ -76,15 +76,16 @@ export const useVAPI = (interview: Interview | null) => {
     };
 
     // Error handling
-    const handleError = (error: any) => {
+    const handleError = (error: unknown) => {
+      const errorMessage = error instanceof Error ? error.message : "An error occurred with the voice AI";
       console.error("❌ VAPI Error:", error);
       setState((prev) => ({
         ...prev,
-        error: error.message || "An error occurred with the voice AI",
+        error: errorMessage,
         isLoading: false,
         isCallActive: false,
       }));
-      toast.error("Voice AI Error - " + (error.message || "An error occurred"));
+      toast.error("Voice AI Error - " + errorMessage);
     };
 
     // Register event listeners
@@ -120,14 +121,15 @@ export const useVAPI = (interview: Interview | null) => {
       console.log("🚀 Starting VAPI interview...");
       await vapiService.startCall(interview);
       console.log("✅ Interview call initiated");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to start interview";
       console.error("Failed to start interview:", error);
       setState((prev) => ({
         ...prev,
-        error: error.message || "Failed to start interview",
+        error: errorMessage,
         isLoading: false,
       }));
-      toast.error("Failed to start interview: " + (error.message || "Unknown error"));
+      toast.error("Failed to start interview: " + errorMessage);
     }
   }, [vapiService, interview]);
 
@@ -139,7 +141,7 @@ export const useVAPI = (interview: Interview | null) => {
       vapiService.stop();
       setState((prev) => ({ ...prev, isCallActive: false, isLoading: false }));
       toast.success("Interview ended");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error ending interview:", error);
       toast.error("Error ending interview");
     }
@@ -153,7 +155,7 @@ export const useVAPI = (interview: Interview | null) => {
       vapiService.setMuted(newMuteState);
       setState((prev) => ({ ...prev, isMuted: newMuteState }));
       toast.info(newMuteState ? "Microphone muted" : "Microphone unmuted");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error toggling mute:", error);
       toast.error("Error toggling mute");
     }
