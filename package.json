@@ -24,7 +24,6 @@
     "@vercel/speed-insights": "^1.2.0",
     "accordion": "^3.0.2",
     "add": "^2.0.6",
-    "ai-mock-interviewer": "link:",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dlx": "^0.2.1",
