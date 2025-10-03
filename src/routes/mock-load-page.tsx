@@ -63,7 +63,7 @@ export const MockLoadPage = () => {
                     breadCrumbPage={"Guidelines"}
                     breadCrumpItems={[{ label: "Interview", link: "/interview" }]}
                 />
-                <Link to={`/interview/simulate/${interviewId}/start`}>
+                <Link to={`/interview/simulate/${interviewId}/interview`}>
                     <Button
                         size="sm"
                         className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm flex items-center gap-2"
